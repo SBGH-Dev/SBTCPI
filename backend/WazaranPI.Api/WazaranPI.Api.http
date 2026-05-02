@@ -1,0 +1,6 @@
+@WazaranPI.Api_HostAddress = http://localhost:5100
+
+GET {{WazaranPI.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
