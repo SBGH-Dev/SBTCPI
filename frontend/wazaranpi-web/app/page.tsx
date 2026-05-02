@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ProfileButton from "./components/ProfileButton";
+import ProfileButton from "./(protected)/components/ProfileButton";
 import Link from "next/link";
 
-import { User } from "@/app/types/auth";
-import { getSavedUser } from "@/app/utils/authStorage";
+import { User } from "@/app/(protected)/types/auth";
+import { getSavedUser } from "@/app/(protected)/utils/authStorage";
 
 const reportCards = [
   {

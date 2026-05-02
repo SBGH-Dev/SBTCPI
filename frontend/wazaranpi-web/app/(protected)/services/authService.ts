@@ -1,4 +1,4 @@
-import { clearUser } from "@/app/utils/authStorage";
+import { clearUser } from "@/app/(protected)/utils/authStorage";
 
 export async function loginUser(username: string, password: string) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/Auth/login`, {

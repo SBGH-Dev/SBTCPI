@@ -13,10 +13,10 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { User } from "@/app/types/auth";
-import { Menu } from "@/app/types/menu";
-import { getSavedUser } from "@/app/utils/authStorage";
-import { getMyMenus } from "@/app/services/menuService";
+import { User } from "@/app/(protected)/types/auth";
+import { Menu } from "@/app/(protected)/types/menu";
+import { getSavedUser } from "@/app/(protected)/utils/authStorage";
+import { getMyMenus } from "@/app/(protected)/services/menuService";
 
 const iconMap: Record<string, LucideIcon> = {
   Home,

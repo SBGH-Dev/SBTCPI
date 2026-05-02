@@ -1,7 +1,34 @@
+"use client";
+
 import Link from "next/link";
 import { UserPlus, UserMinus, ShieldCheck, Fingerprint } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function AdminPage() {
+  const router = useRouter();
+  const [allowed, setAllowed] = useState(false);
+
+  useEffect(() => {
+    const userText = localStorage.getItem("user");
+
+    if (!userText) {
+      router.replace("/unauthorized");
+      return;
+    }
+
+    const user = JSON.parse(userText);
+
+    if (user.roleName?.toLowerCase() !== "admin") {
+      router.replace("/unauthorized");
+      return;
+    }
+
+    setAllowed(true);
+  }, [router]);
+
+  if (!allowed) return null;
+
   return (
     <section className="mx-auto max-w-5xl">
       <div className="mb-8">

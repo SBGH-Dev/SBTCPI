@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
-import { User } from "@/app/types/auth";
-import { getSavedUser } from "@/app/utils/authStorage";
+import { User } from "@/app/(protected)/types/auth";
+import { getSavedUser } from "@/app/(protected)/utils/authStorage";
 
 export default function ProfileButton() {
   const [user, setUser] = useState<User | null>(null);

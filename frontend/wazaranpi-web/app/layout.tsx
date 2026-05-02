@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
-import LeftBar from "./components/LeftBar";
-import AuthButton from "./components/AuthButton";
-import ProfileButton from "./components/ProfileButton";
-import ChatBotButton from "./components/ChatBotButton";
+import LeftBar from "./(protected)/components/LeftBar";
+import AuthButton from "./(protected)/components/AuthButton";
+import ProfileButton from "./(protected)/components/ProfileButton";
+import ChatBotButton from "./(protected)/components/ChatBotButton";
 
 export const metadata: Metadata = {
   title: "WazaranPI",

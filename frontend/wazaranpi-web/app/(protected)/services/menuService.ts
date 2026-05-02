@@ -1,4 +1,4 @@
-import { RawMenu, Menu } from "@/app/types/menu";
+import { RawMenu, Menu } from "@/app/(protected)/types/menu";
 
 export async function getMyMenus(
   empCd: string,

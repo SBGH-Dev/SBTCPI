@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import { getSavedUser } from "@/app/utils/authStorage";
-import { logoutUser } from "@/app/services/authService";
+import { getSavedUser } from "@/app/(protected)/utils/authStorage";
+import { logoutUser } from "@/app/(protected)/services/authService";
 
 export default function AuthButton() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { Bot, X, Send } from "lucide-react";
 
-import { User } from "@/app/types/auth";
-import { Message } from "@/app/types/chat";
-import { getSavedUser } from "@/app/utils/authStorage";
-import { answers } from "@/app/constants/chat";
+import { User } from "@/app/(protected)/types/auth";
+import { Message } from "@/app/(protected)/types/chat";
+import { getSavedUser } from "@/app/(protected)/utils/authStorage";
+import { answers } from "@/app/(protected)/constants/chat";
 
 export default function ChatBotButton() {
   const [user, setUser] = useState<User | null>(null);

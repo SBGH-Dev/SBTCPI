@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import Swal from "sweetalert2";
 
-import { loginUser, saveUser } from "@/app/services/authService";
+import { loginUser, saveUser } from "@/app/(protected)/services/authService";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
