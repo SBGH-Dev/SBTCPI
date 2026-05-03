@@ -8,6 +8,6 @@ namespace WazaranPI.Api.Repositories.Interfaces
 
         // Dummy Sales report data from SQL stored procedure
         Task<IEnumerable<DummySalesDto>> GetDummySalesAsync(DateTime startDate, DateTime endDate);
-        // this for any type of parameters should be Task<IEnumerable<DummySalesDto>>??
+        
     }
 }

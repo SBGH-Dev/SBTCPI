@@ -106,7 +106,7 @@ namespace WazaranPI.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            //this is returing null, why?
+            
             var result = await _authService.LoginAsync(request);
 
             if (result == null)

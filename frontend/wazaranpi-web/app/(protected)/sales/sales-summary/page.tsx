@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import ProfileButton from "../../components/ProfileButton";
+//import ProfileButton from "../components/ProfileButton";
 import Swal from "sweetalert2";
+import ProfileButton from "../../components/ProfileButton";
 
 export default function SalesSummaryPage() {
   const [fromDate, setFromDate] = useState("");
@@ -11,11 +12,20 @@ export default function SalesSummaryPage() {
   const fromDateRef = useRef<HTMLInputElement>(null);
   const toDateRef = useRef<HTMLInputElement>(null);
 
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL; //|| "http://localhost:5100";
 
   const openDatePicker = (ref: React.RefObject<HTMLInputElement | null>) => {
-    ref.current?.showPicker?.();
-    ref.current?.focus();
+    const input = ref.current;
+
+    if (!input) return;
+
+    input.focus();
+
+    const dateInput = input as HTMLInputElement & {
+      showPicker?: () => void;
+    };
+
+    dateInput.showPicker?.();
   };
 
   const validateDates = async () => {
@@ -50,7 +60,7 @@ export default function SalesSummaryPage() {
     if (!(await validateDates())) return;
 
     window.open(
-      `${apiBaseUrl}/api/reports/dummy-sales/pdf?startDate=${fromDate}&endDate=${toDate}`,
+      `${apiBaseUrl}/reports/dummy-sales/pdf?startDate=${fromDate}&endDate=${toDate}`,
       "_blank",
     );
   };
@@ -59,7 +69,7 @@ export default function SalesSummaryPage() {
     if (!(await validateDates())) return;
 
     window.open(
-      `${apiBaseUrl}/api/reports/dummy-sales/excel?startDate=${fromDate}&endDate=${toDate}`,
+      `${apiBaseUrl}/reports/dummy-sales/excel?startDate=${fromDate}&endDate=${toDate}`,
       "_blank",
     );
   };
@@ -92,7 +102,6 @@ export default function SalesSummaryPage() {
               value={fromDate}
               onChange={(e) => setFromDate(e.target.value)}
               onClick={() => openDatePicker(fromDateRef)}
-              onFocus={() => openDatePicker(fromDateRef)}
               className="w-full cursor-pointer rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-800 outline-none transition hover:border-teal-300 focus:border-teal-400 focus:ring-2 focus:ring-teal-100"
             />
           </div>
@@ -108,7 +117,6 @@ export default function SalesSummaryPage() {
               value={toDate}
               onChange={(e) => setToDate(e.target.value)}
               onClick={() => openDatePicker(toDateRef)}
-              onFocus={() => openDatePicker(toDateRef)}
               className="w-full cursor-pointer rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-800 outline-none transition hover:border-teal-300 focus:border-teal-400 focus:ring-2 focus:ring-teal-100"
             />
           </div>

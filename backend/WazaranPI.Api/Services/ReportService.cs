@@ -21,65 +21,172 @@ namespace WazaranPI.Api.Services
     
         public async Task<IEnumerable<DummySalesDto>> GetDummySalesAsync(DateTime startDate, DateTime endDate)
         {
-            // You can later add validation here
+            //validation here
             return await _reportRepository.GetDummySalesAsync(startDate, endDate);
         }
 
        
+       
         public async Task<byte[]> GenerateDummySalesPdfAsync(DateTime startDate, DateTime endDate)
-        {
-            var data = (await _reportRepository.GetDummySalesAsync(startDate, endDate)).ToList();
+{
+                var data = (await _reportRepository.GetDummySalesAsync(startDate, endDate)).ToList();
 
-            var pdf = Document.Create(container =>
-            {
-                container.Page(page =>
+                var totalAmount = data.Sum(x => x.TotalAmount);
+                var totalRows = data.Count;
+
+                var pdf = Document.Create(container =>
                 {
-                    page.Margin(30);
-                    page.Size(PageSizes.A4);
-
-                    // HEADER
-                    page.Header()
-                        .Text("Dummy Sales Report")
-                        .FontSize(20)
-                        .Bold();
-
-                    // TABLE
-                    page.Content().Table(table =>
+                    container.Page(page =>
                     {
-                        table.ColumnsDefinition(columns =>
+                        page.Size(PageSizes.A4);
+                        page.Margin(25);
+                        page.DefaultTextStyle(x => x.FontSize(9).FontFamily("Arial"));
+
+                        // HEADER
+                        page.Header().Column(header =>
                         {
-                            columns.RelativeColumn();
-                            columns.RelativeColumn();
-                            columns.RelativeColumn();
+                            header.Item()
+                                .Background("#0F766E")
+                                .Padding(15)
+                                .Row(row =>
+                                {
+                                    row.RelativeItem().Column(col =>
+                                    {
+                                        col.Item().Text("SALES SUMMARY REPORT")
+                                            .FontSize(22)
+                                            .Bold()
+                                            .FontColor(Colors.White);
+
+                                        col.Item().PaddingTop(4).Text("Dummy Sales Performance Report")
+                                            .FontSize(10)
+                                            .FontColor("#CCFBF1");
+                                    });
+
+                                    row.ConstantItem(140).AlignRight().Column(col =>
+                                    {
+                                        col.Item().Text($"Generated")
+                                            .FontSize(8)
+                                            .FontColor("#CCFBF1");
+
+                                        col.Item().Text(DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"))
+                                            .FontSize(9)
+                                            .Bold()
+                                            .FontColor(Colors.White);
+                                    });
+                                });
+
+                            header.Item().Height(8);
+
+                            // FILTER / SUMMARY CARDS
+                            header.Item().Row(row =>
+                            {
+                                row.RelativeItem().Background("#ECFDF5").Border(1).BorderColor("#99F6E4").Padding(10).Column(col =>
+                                {
+                                    col.Item().Text("FROM DATE").FontSize(7).FontColor("#64748B").Bold();
+                                    col.Item().Text(startDate.ToString("dd/MM/yyyy")).FontSize(12).Bold().FontColor("#0F766E");
+                                });
+
+                                row.Spacing(8);
+
+                                row.RelativeItem().Background("#ECFEFF").Border(1).BorderColor("#A5F3FC").Padding(10).Column(col =>
+                                {
+                                    col.Item().Text("TO DATE").FontSize(7).FontColor("#64748B").Bold();
+                                    col.Item().Text(endDate.ToString("dd/MM/yyyy")).FontSize(12).Bold().FontColor("#0891B2");
+                                });
+
+                                row.Spacing(8);
+
+                                row.RelativeItem().Background("#F8FAFC").Border(1).BorderColor("#CBD5E1").Padding(10).Column(col =>
+                                {
+                                    col.Item().Text("TOTAL RECORDS").FontSize(7).FontColor("#64748B").Bold();
+                                    col.Item().Text(totalRows.ToString("N0")).FontSize(12).Bold().FontColor("#334155");
+                                });
+
+                                row.Spacing(8);
+
+                                row.RelativeItem().Background("#FFF7ED").Border(1).BorderColor("#FDBA74").Padding(10).Column(col =>
+                                {
+                                    col.Item().Text("TOTAL AMOUNT").FontSize(7).FontColor("#64748B").Bold();
+                                    col.Item().Text(totalAmount.ToString("N2")).FontSize(12).Bold().FontColor("#C2410C");
+                                });
+                            });
+
+                            header.Item().Height(12);
                         });
 
-                        // TABLE HEADER
-                        table.Header(header =>
+                        // CONTENT
+                        page.Content().Table(table =>
                         {
-                            header.Cell().Text("Salesman").Bold();
-                            header.Cell().Text("Date").Bold();
-                            header.Cell().Text("Amount").Bold();
+                            table.ColumnsDefinition(columns =>
+                            {
+                                columns.RelativeColumn(2);
+                                columns.RelativeColumn(2);
+                                columns.RelativeColumn(2);
+                            });
+
+                            table.Header(header =>
+                            {
+                                header.Cell().Element(HeaderCellStyle).Text("Salesman");
+                                header.Cell().Element(HeaderCellStyle).Text("Sales Date");
+                                header.Cell().Element(HeaderCellStyle).AlignRight().Text("Total Amount");
+                            });
+
+                            foreach (var item in data)
+                            {
+                                table.Cell().Element(BodyCellStyle).Text(item.Salesman);
+                                table.Cell().Element(BodyCellStyle).Text(item.SalesDate.ToString("dd/MM/yyyy"));
+                                table.Cell().Element(BodyCellStyle).AlignRight().Text(item.TotalAmount.ToString("N2"));
+                            }
                         });
 
-                        // TABLE DATA
-                        foreach (var item in data)
-                        {
-                            table.Cell().Text(item.Salesman);
-                            table.Cell().Text(item.SalesDate.ToString("yyyy-MM-dd"));
-                            table.Cell().Text(item.TotalAmount.ToString("N2"));
-                        }
+                        // FOOTER
+                        page.Footer()
+                            .BorderTop(1)
+                            .BorderColor("#CBD5E1")
+                            .PaddingTop(8)
+                            .Row(row =>
+                            {
+                                row.RelativeItem()
+                                    .Text($"Report period: {startDate:dd/MM/yyyy} - {endDate:dd/MM/yyyy}")
+                                    .FontSize(8)
+                                    .FontColor("#64748B");
+
+                                row.ConstantItem(120)
+                                    .AlignRight()
+                                    .Text(text =>
+                                    {
+                                        text.Span("Page ").FontSize(8).FontColor("#64748B");
+                                        text.CurrentPageNumber().FontSize(8).FontColor("#64748B");
+                                        text.Span(" of ").FontSize(8).FontColor("#64748B");
+                                        text.TotalPages().FontSize(8).FontColor("#64748B");
+                                    });
+                            });
                     });
+                }).GeneratePdf();
 
-                    // FOOTER
-                    page.Footer()
-                        .AlignCenter()
-                        .Text($"From {startDate:yyyy-MM-dd} To {endDate:yyyy-MM-dd}");
-                });
-            }).GeneratePdf();
+                return pdf;
 
-            return pdf;
-        }
+                static IContainer HeaderCellStyle(IContainer container)
+                {
+                    return container
+                        .Background("#0F766E")
+                        .BorderBottom(1)
+                        .BorderColor("#0D9488")
+                        .PaddingVertical(8)
+                        .PaddingHorizontal(6)
+                        .DefaultTextStyle(x => x.Bold().FontColor(Colors.White).FontSize(9));
+                }
 
+                static IContainer BodyCellStyle(IContainer container)
+                {
+                    return container
+                        .BorderBottom(1)
+                        .BorderColor("#E2E8F0")
+                        .PaddingVertical(6)
+                        .PaddingHorizontal(6)
+                        .DefaultTextStyle(x => x.FontSize(8).FontColor("#334155"));
+                }
+            }
       
         public async Task<byte[]> GenerateDummySalesExcelAsync(DateTime startDate, DateTime endDate)
         {
@@ -118,3 +225,4 @@ namespace WazaranPI.Api.Services
     
     }
 }
+
