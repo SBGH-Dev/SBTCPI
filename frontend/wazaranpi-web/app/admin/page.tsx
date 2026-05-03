@@ -4,6 +4,7 @@ import Link from "next/link";
 import { UserPlus, UserMinus, ShieldCheck, Fingerprint } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import ProfileButton from "../(protected)/components/ProfileButton";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -31,11 +32,20 @@ export default function AdminPage() {
 
   return (
     <section className="mx-auto max-w-5xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-extrabold text-slate-900">Admin Panel</h1>
-        <p className="mt-2 text-slate-500">
-          Manage users, permissions, and menu access.
-        </p>
+      <div className="mb-8 rounded-2xl bg-gradient-to-r from-teal-500 to-cyan-500 px-6 py-5 text-white shadow-[0_10px_30px_rgba(20,184,166,0.25)]">
+        <div className="flex items-center justify-between">
+          {/* Left side */}
+          <div>
+            <h1 className="text-2xl font-bold">Admin Panel</h1>
+            <p className="mt-1 text-sm text-white/80">
+              Manage users, permissions, and menu access.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <ProfileButton />
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

@@ -22,3 +22,11 @@ public class SystemController : ControllerBase
         });
     }
 }
+
+    //    [HttpGet("test-hash")]
+    //     public IActionResult TestHash()
+    //     {
+    //         var hash = BCrypt.Net.BCrypt.HashPassword("123456");
+    //         return Ok(hash);
+    //     }
+
