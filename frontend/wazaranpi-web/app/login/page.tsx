@@ -116,8 +116,10 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-[38px]"
-              />
+                className=" cursor-pointer absolute right-4 top-[43px] text-slate-500 hover:text-teal-600"
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
             </div>
 
             {/* Error */}
