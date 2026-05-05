@@ -24,6 +24,7 @@ builder.Services.AddCors(options =>
 });
 
 
+
 builder.Services.AddScoped<IDbConnectionFactory, DbConnectionFactory>();
 
 
@@ -57,3 +58,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
