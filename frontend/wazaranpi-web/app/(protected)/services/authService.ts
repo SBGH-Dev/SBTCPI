@@ -22,7 +22,7 @@ export async function loginUser(username: string, password: string) {
 }
 
 export function saveUser(user: any) {
-  localStorage.setItem("user", JSON.stringify(user));
+  sessionStorage.setItem("user", JSON.stringify(user));
   window.dispatchEvent(new Event("auth-change"));
 }
 

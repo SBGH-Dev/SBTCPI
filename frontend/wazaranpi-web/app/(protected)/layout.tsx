@@ -15,7 +15,7 @@ export default function ProtectedLayout({
 
   useEffect(() => {
     async function checkAccess() {
-      const userText = localStorage.getItem("user");
+      const userText = sessionStorage.getItem("user");
 
       if (!userText) {
         router.replace("/login");

@@ -1,10 +1,10 @@
 export function getSavedUser() {
-  const saved = localStorage.getItem("user");
+  const saved = sessionStorage.getItem("user");
   if (!saved) return null;
 
   return JSON.parse(saved);
 }
 
 export function clearUser() {
-  localStorage.removeItem("user");
+  sessionStorage.removeItem("user");
 }

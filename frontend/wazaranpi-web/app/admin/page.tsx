@@ -11,7 +11,7 @@ export default function AdminPage() {
   const [allowed, setAllowed] = useState(false);
 
   useEffect(() => {
-    const userText = localStorage.getItem("user");
+    const userText = sessionStorage.getItem("user");
 
     if (!userText) {
       router.replace("/unauthorized");
