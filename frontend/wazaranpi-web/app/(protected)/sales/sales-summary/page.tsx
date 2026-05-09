@@ -127,14 +127,14 @@ export default function SalesSummaryPage() {
               onClick={printPdf}
               className="cursor-pointer rounded-xl bg-teal-500 px-5 py-3 text-sm font-bold text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-teal-600 hover:shadow-lg active:translate-y-0"
             >
-              Print PDF
+              Download PDF
             </button>
 
             <button
               onClick={exportExcel}
               className="cursor-pointer rounded-xl bg-cyan-500 px-5 py-3 text-sm font-bold text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-cyan-600 hover:shadow-lg active:translate-y-0"
             >
-              Export Excel
+              Download Excel
             </button>
           </div>
         </div>
