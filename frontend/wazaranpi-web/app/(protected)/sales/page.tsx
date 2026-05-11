@@ -29,11 +29,7 @@ export default function SalesPage() {
 
     const user = JSON.parse(userText);
 
-    console.log("USER:", user);
-
     const empCd = user.empCd || user.EmpCd;
-
-    console.log("EMP CD:", empCd);
 
     getSalesSubMenus(empCd)
       .then(setReports)
