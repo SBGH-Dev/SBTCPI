@@ -15,6 +15,7 @@ namespace WazaranPI.Api.Controllers
             _reportService = reportService;
         }
 
+        
         [HttpGet("dummy-sales")]
         public async Task<IActionResult> GetDummySales(
             [FromQuery] DateTime startDate,

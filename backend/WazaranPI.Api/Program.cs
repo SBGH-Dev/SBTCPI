@@ -38,6 +38,8 @@ builder.Services.AddScoped<IMenuService, MenuService>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
 
+builder.Services.AddScoped<ISalesSubMenuRepository, SalesSubMenuRepository>();
+
 QuestPDF.Settings.License = LicenseType.Community;
 
 

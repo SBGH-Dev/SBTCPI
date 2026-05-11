@@ -75,6 +75,7 @@ namespace WazaranPI.Api.Controllers
             _menuService = menuService;
         }
 
+        
         [HttpGet("my-menus")]
         public async Task<IActionResult> GetMyMenus(
             [FromQuery] string empCd,

@@ -21,7 +21,7 @@ public class SystemController : ControllerBase
             message = "Working"
         });
     }
-}
+
 
     //    [HttpGet("test-hash")]
     //     public IActionResult TestHash()
@@ -29,4 +29,7 @@ public class SystemController : ControllerBase
     //         var hash = BCrypt.Net.BCrypt.HashPassword("123456");
     //         return Ok(hash);
     //     }
+}
+
+    
 
