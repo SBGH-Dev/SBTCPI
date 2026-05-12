@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+
 import {
   Home,
   Wallet,
@@ -115,7 +116,7 @@ export default function LeftBar() {
 
       {user && (
         <div className="mt-auto p-4">
-          <div className="flex items-center gap-3">
+          <div className="cursor-pointer flex items-center gap-3">
             <div className="relative shrink-0">
               <div className="grid h-12 w-12 place-items-center rounded-full bg-teal-500 text-lg font-bold text-white shadow-md">
                 {user.fullName?.charAt(0) ?? "U"}
