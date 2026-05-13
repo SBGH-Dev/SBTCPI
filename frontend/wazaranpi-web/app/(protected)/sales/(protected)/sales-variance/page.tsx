@@ -13,6 +13,7 @@ import {
   TrendingUp,
   TrendingDown,
   Database,
+  Space,
 } from "lucide-react";
 
 type SalesVarianceRow = {
@@ -336,8 +337,11 @@ export default function SalesVariancePage() {
             <button
               onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
               disabled={currentPage === 1 || totalPages === 0}
-              className="rounded-lg border border-teal-200 bg-white px-4 py-2 text-sm font-semibold text-teal-600 transition hover:bg-teal-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="cursor-pointer rounded-lg border border-teal-200 bg-white px-4 py-2 text-sm font-semibold text-teal-600 transition hover:bg-teal-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
+              <span className="mr-1 transition-transform duration-200 group-hover:translate-x-1">
+                ←
+              </span>
               Previous
             </button>
 
@@ -346,9 +350,12 @@ export default function SalesVariancePage() {
                 setCurrentPage((page) => Math.min(totalPages, page + 1))
               }
               disabled={currentPage === totalPages || totalPages === 0}
-              className="rounded-lg border border-teal-200 bg-white px-4 py-2 text-sm font-semibold text-teal-600 transition hover:bg-teal-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="cursor-pointer rounded-lg border border-teal-200 bg-white px-4 py-2 text-sm font-semibold text-teal-600 transition hover:bg-teal-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               Next
+              <span className="ml-1 transition-transform duration-200 group-hover:translate-x-1">
+                →
+              </span>
             </button>
           </div>
         </div>
