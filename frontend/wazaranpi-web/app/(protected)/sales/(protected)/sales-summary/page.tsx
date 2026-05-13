@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 //import ProfileButton from "../components/ProfileButton";
 import Swal from "sweetalert2";
-import ProfileButton from "../../components/ProfileButton";
+import ProfileButton from "../../../components/ProfileButton";
 import { useRouter } from "next/navigation";
 
 export default function SalesSummaryPage() {

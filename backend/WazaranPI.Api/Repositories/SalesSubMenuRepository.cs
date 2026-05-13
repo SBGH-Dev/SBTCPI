@@ -16,7 +16,7 @@ namespace WazaranPI.Api.Repositories
         public async Task<List<SalesSubMenuDto>> GetSalesSubMenusAsync(string empCd)
         {
             using var connection = _connectionFactory.CreateConnection();
-
+         
             string sql = @"
                 SELECT
                     s.SalesSubMenuId AS Id,
