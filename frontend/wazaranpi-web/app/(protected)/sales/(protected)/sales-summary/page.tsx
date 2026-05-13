@@ -86,7 +86,6 @@ export default function SalesSummaryPage() {
               Select date range and generate report.
             </p>
           </div>
-
           <ProfileButton />
         </div>
       </div>
@@ -139,7 +138,6 @@ export default function SalesSummaryPage() {
           </div>
         </div>
       </div>
-
       <div className="mt-auto ml-1 flex justify-start pt-8">
         <button
           onClick={() => router.push("/sales")}
