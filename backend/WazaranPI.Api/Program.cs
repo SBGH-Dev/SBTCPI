@@ -6,6 +6,10 @@ using WazaranPI.Api.Repositories;
 using WazaranPI.Api.Repositories.Interfaces;
 using WazaranPI.Api.Services;
 using WazaranPI.Api.Services.Interfaces;
+using WazaranPI.Api.Repositories.Interfaces.Reports.Sales.SalesVariance;
+using WazaranPI.Api.Repositories.Reports.Sales.SalesVariance;
+using WazaranPI.Api.Services.Interfaces.Reports.Sales.SalesVariance;
+using WazaranPI.Api.Services.Reports.Sales.SalesVariance;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -39,6 +43,9 @@ builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
 
 builder.Services.AddScoped<ISalesSubMenuRepository, SalesSubMenuRepository>();
+
+builder.Services.AddScoped<ISalesVarianceRepository, SalesVarianceRepository>();
+builder.Services.AddScoped<ISalesVarianceService, SalesVarianceService>();
 
 QuestPDF.Settings.License = LicenseType.Community;
 

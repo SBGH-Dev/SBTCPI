@@ -16,7 +16,6 @@ namespace WazaranPI.Api.Repositories
             _connectionFactory = connectionFactory;
         }
 
-       
         public async Task<IEnumerable<DummySalesDto>> GetDummySalesAsync(DateTime startDate, DateTime endDate)
         {
             // Create DB connection
@@ -34,7 +33,6 @@ namespace WazaranPI.Api.Repositories
             );
         }
 
-       
-
     }
 }
+
