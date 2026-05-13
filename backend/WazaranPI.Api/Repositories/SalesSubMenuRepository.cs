@@ -19,7 +19,7 @@ namespace WazaranPI.Api.Repositories
             using var connection = _connectionFactory.CreateConnection();
 
             var result = await connection.QueryAsync<SalesSubMenuDto>(
-                "sp_UserSalesSubMenuAccess",
+                "sp_bi_t_bi_sales_submenu_get", //sp_UserSalesSubMenuAccess
                 new { EmpCd = empCd },
                 commandType: CommandType.StoredProcedure
             );

@@ -21,7 +21,7 @@ namespace WazaranPI.Api.Repositories
 
             
             var menus = await db.QueryAsync<MenuDto>(
-                "sp_Menus_Get",
+                "sp_bi_tmst_bi_menus_get",  //sp_Menus_Get 
                 new
                 {
                     EmpCd = empCd,
