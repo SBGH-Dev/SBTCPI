@@ -214,7 +214,8 @@ namespace WazaranPI.Api.Services.Reports.Sales.SalesVariance
             }
 
             ws.Range(1, 1, 1, 10).Style.Font.Bold = true;
-            ws.Range(1, 1, 1, 10).Style.Fill.BackgroundColor = XLColor.Teal;
+           // ws.Range(1, 1, 1, 10).Style.Fill.BackgroundColor = XLColor.Teal;
+           ws.Range(1, 1, 1, 10).Style.Fill.BackgroundColor = XLColor.FromHtml("#0D9488");
             ws.Range(1, 1, 1, 10).Style.Font.FontColor = XLColor.White;
 
             ws.Columns(8, 10).Style.NumberFormat.Format = "#,##0.00";
