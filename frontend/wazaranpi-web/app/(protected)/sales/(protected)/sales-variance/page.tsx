@@ -16,19 +16,6 @@ import {
   Space,
 } from "lucide-react";
 
-type SalesVarianceRow = {
-  customerNumber: string;
-  customerGroup: string;
-  branchCode: string;
-  branchName: string;
-  salesmanNumber: string;
-  salesManName: string;
-  salesmanPhone: string;
-  currentYear: number;
-  lastYear: number;
-  variance: number;
-};
-
 export default function SalesVariancePage() {
   const [rows, setRows] = useState<SalesVarianceRow[]>([]);
   const [loading, setLoading] = useState(false);
