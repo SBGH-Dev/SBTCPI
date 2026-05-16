@@ -35,6 +35,11 @@ namespace WazaranPI.Api.Services
             {
                 return null;
             }
+            
+            // was for plain pass
+            // if (user == null || user.PasswordHash != request.Password)
+            //     return Unauthorized("Invalid username or password");
+
 
             // Return safe data only. Do NOT return password hash.
             return new LoginResponse
