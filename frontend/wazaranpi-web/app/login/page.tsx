@@ -59,7 +59,7 @@ export default function LoginPage() {
                 height={46}
                 className="rounded-full bg-white/20 p-1"
               />
-              <h2 className="text-2xl font-bold">WazaranPI</h2>
+              <h2 className="text-2xl font-bold">WazaranBI</h2>
             </div>
 
             <div className="mt-20">
@@ -143,7 +143,7 @@ export default function LoginPage() {
             </form>
 
             <p className="mt-6 text-center text-xs text-slate-400">
-              © WazaranPI
+              © WazaranBI
             </p>
           </div>
         </div>

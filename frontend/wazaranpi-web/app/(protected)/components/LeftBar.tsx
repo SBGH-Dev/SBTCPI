@@ -79,7 +79,7 @@ export default function LeftBar() {
         />
 
         <span className="hidden whitespace-nowrap text-lg font-bold text-teal-700 group-hover:inline">
-          WazaranPI
+          WazaranBI
         </span>
       </Link>
 

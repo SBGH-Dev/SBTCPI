@@ -57,7 +57,7 @@ export default function RootLayout({
             </main>
 
             <footer className="border-t border-cyan-100 bg-[#DDFBF3]/80 py-4 text-center text-sm text-slate-500 backdrop-blur-xl">
-              <p>© {new Date().getFullYear()} WazaranPI</p>
+              <p>© {new Date().getFullYear()} WazaranBI</p>
             </footer>
           </div>
         </div>
