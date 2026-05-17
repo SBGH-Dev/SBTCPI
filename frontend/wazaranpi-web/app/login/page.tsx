@@ -114,7 +114,7 @@ export default function LoginPage() {
                 </label>
 
                 <input
-                  type={showPassword ? "text" : "password"}
+                  // type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full rounded-2xl border px-4 py-3 pr-12 text-slate-800"
