@@ -218,11 +218,11 @@ export default function SalesVariancePage() {
             <thead className="bg-teal-500 text-white">
               <tr>
                 <th className="px-4 py-3">Customer No</th>
-                <th className="px-4 py-3">Group</th>
-                <th className="px-4 py-3">Branch</th>
+                <th className="px-4 py-3">Customer Group</th>
+                <th className="px-4 py-3">Branch Code</th>
                 <th className="px-4 py-3">Branch Name</th>
                 <th className="px-4 py-3">Salesman No</th>
-                <th className="px-4 py-3">Salesman</th>
+                <th className="px-4 py-3">Salesman Name</th>
                 <th className="px-4 py-3">Salesman Phone</th>
                 <th className="px-4 py-3 text-right">Current Year</th>
                 <th className="px-4 py-3 text-right">Last Year</th>
