@@ -13,6 +13,7 @@ namespace WazaranPI.Api.Controllers;
 public class SystemController : ControllerBase
 {
     [HttpGet]
+    
     public IActionResult GetStatus()
     {
         return Ok (new

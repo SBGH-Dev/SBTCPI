@@ -214,7 +214,7 @@ export default function SalesVariancePage() {
         </div>
 
         <div className="overflow-x-auto rounded-xl border border-slate-100">
-          <table className="min-w-full text-left text-sm">
+          <table className="min-w-full text-left text-xs">
             <thead className="bg-teal-500 text-white">
               <tr>
                 <th className="px-4 py-3">Customer No</th>
@@ -223,7 +223,7 @@ export default function SalesVariancePage() {
                 <th className="px-4 py-3">Branch Name</th>
                 <th className="px-4 py-3">Salesman No</th>
                 <th className="px-4 py-3">Salesman</th>
-                <th className="px-4 py-3">Phone</th>
+                <th className="px-4 py-3">Salesman Phone</th>
                 <th className="px-4 py-3 text-right">Current Year</th>
                 <th className="px-4 py-3 text-right">Last Year</th>
                 <th
