@@ -45,6 +45,19 @@ export default function LoginPage() {
 
   return (
     <>
+      <style jsx global>{`
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear {
+          display: none;
+        }
+
+        input::-webkit-credentials-auto-fill-button {
+          visibility: hidden;
+          display: none !important;
+          pointer-events: none;
+        }
+      `}</style>
+
       {loading && <Loader text="Signing you in..." />}
 
       <section className="flex min-h-[calc(100vh-8rem)] items-center justify-center">
@@ -114,7 +127,7 @@ export default function LoginPage() {
                 </label>
 
                 <input
-                  // type={showPassword ? "text" : "password"}
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full rounded-2xl border px-4 py-3 pr-12 text-slate-800"
