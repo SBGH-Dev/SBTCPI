@@ -92,7 +92,7 @@ export default function Home() {
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <p className="text-xs text-white/70">Reports Center</p>
-                <h2 className="text-lg font-bold">WazaranPI</h2>
+                <h2 className="text-lg font-bold">WazaranBI</h2>
               </div>
 
               <div className="grid h-10 w-10 place-items-center rounded-full bg-white/20 text-lg">
