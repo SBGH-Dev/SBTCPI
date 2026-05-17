@@ -7,7 +7,7 @@ import ProfileButton from "./(protected)/components/ProfileButton";
 import ChatBotButton from "./(protected)/components/ChatBotButton";
 
 export const metadata: Metadata = {
-  title: "WazaranPI",
+  title: "WazaranBI",
   description: "Our WazaranPI Logo",
 };
 
