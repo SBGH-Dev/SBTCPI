@@ -46,7 +46,7 @@ export default function ChatBotButton() {
           <div className="flex items-center justify-between bg-teal-600 px-5 py-4 text-white">
             <div className="flex items-center gap-2">
               <Bot size={20} />
-              <p className="font-bold">WazaranPI Assistant</p>
+              <p className="font-bold">WazaranBI Assistant</p>
             </div>
 
             <button
