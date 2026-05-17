@@ -22,6 +22,8 @@ export default function SalesVariancePage() {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [pageLoaderText, setPageLoaderText] = useState("");
+
   const router = useRouter();
 
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -61,12 +63,59 @@ export default function SalesVariancePage() {
     loadData();
   }, []);
 
+  const downloadFile = async (
+    url: string,
+    fileName: string,
+    loadingText: string,
+  ) => {
+    try {
+      setPageLoaderText(loadingText);
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error("Download failed");
+      }
+
+      const blob = await response.blob();
+      const fileUrl = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = fileUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+
+      link.remove();
+      window.URL.revokeObjectURL(fileUrl);
+    } catch {
+      await Swal.fire({
+        title: "Error",
+        text: "Could not download file.",
+        icon: "error",
+        confirmButtonColor: "#14b8a6",
+        background: "#F3FFFC",
+        color: "#1e293b",
+      });
+    } finally {
+      setPageLoaderText("");
+    }
+  };
+
   const printPdf = () => {
-    window.open(`${apiBaseUrl}/reports/sales/sales-variance/pdf`, "_blank");
+    downloadFile(
+      `${apiBaseUrl}/reports/sales/sales-variance/pdf`,
+      "SalesVariance.pdf",
+      "Preparing PDF...",
+    );
   };
 
   const exportExcel = () => {
-    window.open(`${apiBaseUrl}/reports/sales/sales-variance/excel`, "_blank");
+    downloadFile(
+      `${apiBaseUrl}/reports/sales/sales-variance/excel`,
+      "SalesVariance.xlsx",
+      "Preparing Excel...",
+    );
   };
 
   const sortedRows = useMemo(() => {
@@ -141,6 +190,7 @@ export default function SalesVariancePage() {
 
   return (
     <section className="min-h-[calc(100vh-8rem)] rounded-[2rem] bg-white/70 p-10 shadow-[0_20px_60px_rgba(15,118,110,0.12)]">
+      {pageLoaderText && <Loader text={pageLoaderText} fullScreen={true} />}
       <div className="mb-8 rounded-2xl bg-gradient-to-r from-teal-500 to-cyan-500 px-6 py-5 text-white shadow-[0_10px_30px_rgba(20,184,166,0.25)]">
         <div className="flex items-center justify-between">
           <div>
@@ -364,6 +414,7 @@ export default function SalesVariancePage() {
         <div className="flex justify-center gap-3">
           <button
             onClick={printPdf}
+            disabled={!!pageLoaderText}
             className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-teal-500 px-5 py-3 text-sm font-bold text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:bg-teal-600 hover:shadow-lg active:translate-y-0"
           >
             <FileText size={17} className="transition group-hover:scale-110" />
@@ -372,6 +423,7 @@ export default function SalesVariancePage() {
 
           <button
             onClick={exportExcel}
+            disabled={!!pageLoaderText}
             className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-cyan-500 px-5 py-3 text-sm font-bold text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:bg-cyan-600 hover:shadow-lg active:translate-y-0"
           >
             <FileSpreadsheet
