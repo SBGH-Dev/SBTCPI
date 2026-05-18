@@ -22,10 +22,11 @@ namespace WazaranPI.Api.Services.Reports.Sales.SalesVariance
             return await _repository.GetSalesVarianceAsync();
         }
 
+
+// please resuce to 500 rows only to see if the problem is the size 
         public async Task<byte[]> GenerateSalesVariancePdfAsync()
         {
             var data = (await _repository.GetSalesVarianceAsync()).ToList();
-
             var totalCurrentYear = data.Sum(x => x.CurrentYear);
             var totalLastYear = data.Sum(x => x.LastYear);
             var totalVariance = data.Sum(x => x.Variance);
@@ -392,6 +393,8 @@ namespace WazaranPI.Api.Services.Reports.Sales.SalesVariance
               
         // }
 
+
+
         public async Task<MemoryStream> GenerateSalesVarianceExcelAsync()
                 {
                     var data = (await _repository.GetSalesVarianceAsync()).ToList();
@@ -434,7 +437,7 @@ namespace WazaranPI.Api.Services.Reports.Sales.SalesVariance
 
                     ws.Columns(8, 10).Style.NumberFormat.Format = "#,##0.00";
 
-                    //ws.Columns().AdjustToContents(); -- for auto wisth 
+                    //ws.Columns().AdjustToContents(); -- for auto width 
 
                     // fixed widths 
                     ws.Column(1).Width = 18;
@@ -442,7 +445,7 @@ namespace WazaranPI.Api.Services.Reports.Sales.SalesVariance
                     ws.Column(3).Width = 15;
                     ws.Column(4).Width = 30;
                     ws.Column(5).Width = 18;
-                    ws.Column(6).Width = 28;
+                    ws.Column(6).Width = 36;
                     ws.Column(7).Width = 18;
                     ws.Column(8).Width = 18;
                     ws.Column(9).Width = 18;

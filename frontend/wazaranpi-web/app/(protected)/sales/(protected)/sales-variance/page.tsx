@@ -106,7 +106,7 @@ export default function SalesVariancePage() {
     downloadFile(
       `${apiBaseUrl}/reports/sales/sales-variance/pdf`,
       "SalesVariance.pdf",
-      "Preparing PDF...",
+      "Preparing PDF ( It Might Take Time Since Its A Large Data Set )...",
     );
   };
 
