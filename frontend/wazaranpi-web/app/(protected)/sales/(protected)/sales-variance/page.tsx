@@ -5,6 +5,8 @@ import Swal from "sweetalert2";
 import ProfileButton from "../../../components/ProfileButton";
 import Loader from "../../../components/Loader";
 import { useRouter } from "next/navigation";
+import MultiSelectFilter from "../../../components/MultiSelectFilter";
+
 import {
   RefreshCcw,
   FileText,
@@ -13,28 +15,110 @@ import {
   TrendingUp,
   TrendingDown,
   Database,
-  Space,
 } from "lucide-react";
 
 export default function SalesVariancePage() {
+  type FilterOption = {
+    value: string;
+    label: string;
+  };
+
+  type SalesVarianceFilters = {
+    branches: FilterOption[];
+    salesmen: FilterOption[];
+    customers: FilterOption[];
+    channels: FilterOption[];
+  };
+
   const [rows, setRows] = useState<SalesVarianceRow[]>([]);
   const [loading, setLoading] = useState(false);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [currentPage, setCurrentPage] = useState(1);
 
   const [pageLoaderText, setPageLoaderText] = useState("");
+  const [branches, setBranches] = useState<FilterOption[]>([]);
+  const [salesmen, setSalesmen] = useState<FilterOption[]>([]);
+  const [customers, setCustomers] = useState<FilterOption[]>([]);
+  const [channels, setChannels] = useState<FilterOption[]>([]);
+
+  const [selectedBranches, setSelectedBranches] = useState<string[]>([]);
+  const [selectedSalesmen, setSelectedSalesmen] = useState<string[]>([]);
+  const [selectedCustomers, setSelectedCustomers] = useState<string[]>([]);
+  const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
 
   const router = useRouter();
 
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
   const pageSize = 10;
 
-  const loadData = async () => {
+  const handleBranchChange = async (values: string[]) => {
+    setSelectedBranches(values);
+    setSelectedSalesmen([]);
+    setSelectedCustomers([]);
+
+    await loadFilters(values.join(","));
+  };
+
+  const buildQuery = (
+    branchesValue = selectedBranches,
+    salesmenValue = selectedSalesmen,
+    customersValue = selectedCustomers,
+    channelsValue = selectedChannels,
+  ) => {
+    const params = new URLSearchParams();
+
+    params.append("branches", branchesValue.join(","));
+    params.append("salesmen", salesmenValue.join(","));
+    params.append("customers", customersValue.join(","));
+    params.append("channels", channelsValue.join(","));
+
+    return params.toString();
+  };
+
+  const loadFilters = async (branchCode = "") => {
+    try {
+      const response = await fetch(
+        `${apiBaseUrl}/reports/sales/sales-variance/filters?salespointcd=${branchCode}`,
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to load filters.");
+      }
+
+      const data: SalesVarianceFilters = await response.json();
+
+      setBranches(data.branches);
+      setSalesmen(data.salesmen);
+      setCustomers(data.customers);
+      setChannels(data.channels);
+    } catch {
+      await Swal.fire({
+        title: "Error",
+        text: "Could not load filters.",
+        icon: "error",
+        confirmButtonColor: "#14b8a6",
+        background: "#F3FFFC",
+        color: "#1e293b",
+      });
+    }
+  };
+
+  const loadData = async (
+    branchesValue = selectedBranches,
+    salesmenValue = selectedSalesmen,
+    customersValue = selectedCustomers,
+    channelsValue = selectedChannels,
+  ) => {
     try {
       setLoading(true);
 
       const response = await fetch(
-        `${apiBaseUrl}/reports/sales/sales-variance`,
+        `${apiBaseUrl}/reports/sales/sales-variance?${buildQuery(
+          branchesValue,
+          salesmenValue,
+          customersValue,
+          channelsValue,
+        )}`,
       );
 
       if (!response.ok) {
@@ -60,6 +144,7 @@ export default function SalesVariancePage() {
   };
 
   useEffect(() => {
+    loadFilters();
     loadData();
   }, []);
 
@@ -104,7 +189,7 @@ export default function SalesVariancePage() {
 
   const printPdf = () => {
     downloadFile(
-      `${apiBaseUrl}/reports/sales/sales-variance/pdf`,
+      `${apiBaseUrl}/reports/sales/sales-variance/pdf?${buildQuery()}`,
       "SalesVariance.pdf",
       "Preparing PDF ( It Might Take Time Since Its A Large Data Set )...",
     );
@@ -112,7 +197,7 @@ export default function SalesVariancePage() {
 
   const exportExcel = () => {
     downloadFile(
-      `${apiBaseUrl}/reports/sales/sales-variance/excel`,
+      `${apiBaseUrl}/reports/sales/sales-variance/excel?${buildQuery()}`,
       "SalesVariance.xlsx",
       "Preparing Excel...",
     );
@@ -204,6 +289,73 @@ export default function SalesVariancePage() {
           <ProfileButton />
         </div>
       </div>
+      <div className="mb-6 rounded-2xl border border-teal-100 bg-white p-5 shadow-sm">
+        <div className="mb-4 flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-bold text-slate-800">Filters</h2>
+            <p className="text-sm text-slate-500">
+              By default, all branches, salesmen, customers, and channels are
+              included.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+          <MultiSelectFilter
+            title="Branch"
+            options={branches}
+            selectedValues={selectedBranches}
+            onChange={handleBranchChange}
+          />
+
+          <MultiSelectFilter
+            title="Salesman"
+            options={salesmen}
+            selectedValues={selectedSalesmen}
+            onChange={setSelectedSalesmen}
+          />
+
+          <MultiSelectFilter
+            title="Customer"
+            options={customers}
+            selectedValues={selectedCustomers}
+            onChange={setSelectedCustomers}
+          />
+
+          <MultiSelectFilter
+            title="Channel"
+            options={channels}
+            selectedValues={selectedChannels}
+            onChange={setSelectedChannels}
+          />
+        </div>
+
+        <div className="mt-5 flex flex-wrap justify-end gap-3">
+          <button
+            onClick={() => loadData()}
+            disabled={loading}
+            className="cursor-pointer rounded-full bg-teal-500 px-5 py-2 text-sm font-bold text-white transition hover:bg-teal-600 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            Apply Filters
+          </button>
+
+          <button
+            onClick={async () => {
+              setSelectedBranches([]);
+              setSelectedSalesmen([]);
+              setSelectedCustomers([]);
+              setSelectedChannels([]);
+
+              await loadFilters("");
+              await loadData([], [], [], []);
+            }}
+            disabled={loading}
+            className="cursor-pointer rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-bold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            Reset
+          </button>
+        </div>
+      </div>
 
       <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
         {summaryCards.map((card) => {
@@ -268,6 +420,7 @@ export default function SalesVariancePage() {
             <thead className="bg-teal-500 text-white">
               <tr>
                 <th className="px-4 py-3">Customer No</th>
+                <th className="px-4 py-3">Customer Name</th>
                 <th className="px-4 py-3">Customer Group</th>
                 <th className="px-4 py-3">Branch Code</th>
                 <th className="px-4 py-3">Branch Name</th>
@@ -307,6 +460,10 @@ export default function SalesVariancePage() {
                   >
                     <td className="px-4 py-3 font-semibold text-slate-700">
                       {item.customerNumber}
+                    </td>
+
+                    <td className="px-4 py-3 font-semibold text-slate-700">
+                      {item.customerName}
                     </td>
 
                     <td className="px-4 py-3 text-slate-600">
@@ -436,7 +593,16 @@ export default function SalesVariancePage() {
 
         <div className="flex justify-end">
           <button
-            onClick={loadData}
+            // onClick={() => loadData()}
+            onClick={async () => {
+              setSelectedBranches([]);
+              setSelectedSalesmen([]);
+              setSelectedCustomers([]);
+              setSelectedChannels([]);
+
+              await loadFilters("");
+              await loadData([], [], [], []);
+            }}
             disabled={loading}
             className="group inline-flex cursor-pointer items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-teal-200 hover:bg-teal-50 hover:text-teal-700 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60"
           >
