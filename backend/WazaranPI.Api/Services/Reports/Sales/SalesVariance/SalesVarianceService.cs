@@ -22,167 +22,10 @@ namespace WazaranPI.Api.Services.Reports.Sales.SalesVariance
             return await _repository.GetSalesVarianceAsync();
         }
 
-        // public async Task<byte[]> GenerateSalesVariancePdfAsync()
-        // {
-        //     var data = (await _repository.GetSalesVarianceAsync()).ToList();
-
-        //     var totalCurrentYear = data.Sum(x => x.CurrentYear);
-        //     var totalLastYear = data.Sum(x => x.LastYear);
-        //     var totalVariance = data.Sum(x => x.Variance);
-
-        //     var companyLogo = File.ReadAllBytes("Assets/sbtclogo.png");
-        //     var websiteLogo = File.ReadAllBytes("Assets/wazaranPILogo.png");
-
-        //     var pdf = Document.Create(container =>
-        //     {
-        //         container.Page(page =>
-        //         {
-        //             page.Size(PageSizes.A4.Landscape());
-        //             page.Margin(25);
-        //             page.DefaultTextStyle(x => x.FontSize(8).FontFamily("Arial"));
-
-        //             page.Header().Column(header =>
-        //             {
-        //                 header.Item()
-        //                     .Height(65)
-        //                     .AlignCenter()
-        //                     .Image(companyLogo)
-        //                     .FitHeight();
-
-        //                 header.Item().Height(10);
-
-        //                 header.Item()
-        //                     .Background("#0EA5A4")
-        //                     .Padding(12)
-        //                     .Column(col =>
-        //                     {
-        //                         col.Item().Text("SALES VARIANCE REPORT")
-        //                             .FontSize(18)
-        //                             .Bold()
-        //                             .FontColor(Colors.White);
-
-        //                         col.Item().PaddingTop(3)
-        //                             .Text($"Total Current Year: {totalCurrentYear:N2}   |   Total Last Year: {totalLastYear:N2}   |   Total Variance: {totalVariance:N2}")
-        //                             .FontSize(9)
-        //                             .FontColor("#CCFBF1");
-
-        //                         col.Item().PaddingTop(3)
-        //                             .Text($"Generated: {DateTime.Now:dd/MM/yyyy hh:mm tt}")
-        //                             .FontSize(9)
-        //                             .FontColor("#CCFBF1");
-        //                     });
-
-        //                 header.Item().Height(12);
-        //             });
-
-        //             page.Content().Table(table =>
-        //             {
-        //                 table.ColumnsDefinition(columns =>
-        //                 {
-        //                     columns.RelativeColumn(1.4f);
-        //                     columns.RelativeColumn(1.4f);
-        //                     columns.RelativeColumn(1.2f);
-        //                     columns.RelativeColumn(2f);
-        //                     columns.RelativeColumn(1.5f);
-        //                     columns.RelativeColumn(2f);
-        //                     columns.RelativeColumn(1.5f);
-        //                     columns.RelativeColumn(1.5f);
-        //                     columns.RelativeColumn(1.5f);
-        //                     columns.RelativeColumn(1.5f);
-        //                 });
-
-        //                 table.Header(header =>
-        //                 {
-        //                     header.Cell().Element(HeaderCellStyle).Text("Customer No");
-        //                     header.Cell().Element(HeaderCellStyle).Text("Group");
-        //                     header.Cell().Element(HeaderCellStyle).Text("Branch");
-        //                     header.Cell().Element(HeaderCellStyle).Text("Branch Name");
-        //                     header.Cell().Element(HeaderCellStyle).Text("Salesman No");
-        //                     header.Cell().Element(HeaderCellStyle).Text("Salesman");
-        //                     header.Cell().Element(HeaderCellStyle).Text("Phone");
-        //                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Current Year");
-        //                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Last Year");
-        //                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Variance");
-        //                 });
-
-        //                 foreach (var item in data)
-        //                 {
-        //                     table.Cell().Element(BodyCellStyle).Text(item.CustomerNumber);
-        //                     table.Cell().Element(BodyCellStyle).Text(item.CustomerGroup);
-        //                     table.Cell().Element(BodyCellStyle).Text(item.BranchCode);
-        //                     table.Cell().Element(BodyCellStyle).Text(item.BranchName);
-        //                     table.Cell().Element(BodyCellStyle).Text(item.SalesmanNumber);
-        //                     table.Cell().Element(BodyCellStyle).Text(item.SalesManName);
-        //                     table.Cell().Element(BodyCellStyle).Text(item.SalesmanPhone);
-        //                     table.Cell().Element(BodyCellStyle).AlignRight().Text(item.CurrentYear.ToString("N2"));
-        //                     table.Cell().Element(BodyCellStyle).AlignRight().Text(item.LastYear.ToString("N2"));
-        //                     table.Cell().Element(BodyCellStyle).AlignRight().Text(item.Variance.ToString("N2"));
-        //                 }
-        //             });
-
-        //             page.Footer()
-        //                 .BorderTop(1)
-        //                 .BorderColor("#CBD5E1")
-        //                 .PaddingTop(8)
-        //                 .Row(row =>
-        //                 {
-        //                     row.RelativeItem().Row(left =>
-        //                     {
-        //                         left.ConstantItem(22)
-        //                             .Image(websiteLogo)
-        //                             .FitWidth();
-
-        //                         left.RelativeItem()
-        //                             .PaddingLeft(6)
-        //                             .AlignMiddle()
-        //                             .Text("WazaranPI")
-        //                             .FontSize(10)
-        //                             .Bold()
-        //                             .FontColor("#0F766E");
-        //                     });
-
-        //                     row.ConstantItem(120)
-        //                         .AlignRight()
-        //                         .Text(text =>
-        //                         {
-        //                             text.Span("Page ").FontSize(8).FontColor("#64748B");
-        //                             text.CurrentPageNumber().FontSize(8).FontColor("#64748B");
-        //                             text.Span(" of ").FontSize(8).FontColor("#64748B");
-        //                             text.TotalPages().FontSize(8).FontColor("#64748B");
-        //                         });
-        //                 });
-        //         });
-        //     }).GeneratePdf();
-
-        //     return pdf;
-
-        //     static IContainer HeaderCellStyle(IContainer container)
-        //     {
-        //         return container
-        //             .Background("#0EA5A4")
-        //             .BorderBottom(1)
-        //             .BorderColor("#0D9488")
-        //             .PaddingVertical(7)
-        //             .PaddingHorizontal(5)
-        //             .DefaultTextStyle(x => x.Bold().FontColor(Colors.White).FontSize(8));
-        //     }
-
-        //     static IContainer BodyCellStyle(IContainer container)
-        //     {
-        //         return container
-        //             .BorderBottom(1)
-        //             .BorderColor("#E2E8F0")
-        //             .PaddingVertical(5)
-        //             .PaddingHorizontal(5)
-        //             .DefaultTextStyle(x => x.FontSize(7).FontColor("#334155"));
-        //     }
-        // }
-
-
-        public async Task<MemoryStream> GenerateSalesVariancePdfAsync()
+        public async Task<byte[]> GenerateSalesVariancePdfAsync()
         {
             var data = (await _repository.GetSalesVarianceAsync()).ToList();
-             var stream = new MemoryStream();
+
             var totalCurrentYear = data.Sum(x => x.CurrentYear);
             var totalLastYear = data.Sum(x => x.LastYear);
             var totalVariance = data.Sum(x => x.Variance);
@@ -311,9 +154,7 @@ namespace WazaranPI.Api.Services.Reports.Sales.SalesVariance
                 });
             }).GeneratePdf();
 
-            stream.Position = 0;
-
-            return stream;
+            return pdf;
 
             static IContainer HeaderCellStyle(IContainer container)
             {
@@ -336,6 +177,164 @@ namespace WazaranPI.Api.Services.Reports.Sales.SalesVariance
                     .DefaultTextStyle(x => x.FontSize(7).FontColor("#334155"));
             }
         }
+
+
+       
+        // public async Task<MemoryStream> GenerateSalesVariancePdfAsync()
+        // {
+        //     var data = (await _repository.GetSalesVarianceAsync()).ToList();
+            
+        //     var totalCurrentYear = data.Sum(x => x.CurrentYear);
+        //     var totalLastYear = data.Sum(x => x.LastYear);
+        //     var totalVariance = data.Sum(x => x.Variance);
+
+        //     var companyLogo = File.ReadAllBytes("Assets/sbtclogo.png");
+        //     var websiteLogo = File.ReadAllBytes("Assets/wazaranPILogo.png");
+
+        //     var pdf = Document.Create(container =>
+        //     {
+        //         container.Page(page =>
+        //         {
+        //             page.Size(PageSizes.A4.Landscape());
+        //             page.Margin(25);
+        //             page.DefaultTextStyle(x => x.FontSize(8).FontFamily("Arial"));
+
+        //             page.Header().Column(header =>
+        //             {
+        //                 header.Item()
+        //                     .Height(65)
+        //                     .AlignCenter()
+        //                     .Image(companyLogo)
+        //                     .FitHeight();
+
+        //                 header.Item().Height(10);
+
+        //                 header.Item()
+        //                     .Background("#0EA5A4")
+        //                     .Padding(12)
+        //                     .Column(col =>
+        //                     {
+        //                         col.Item().Text("SALES VARIANCE REPORT")
+        //                             .FontSize(18)
+        //                             .Bold()
+        //                             .FontColor(Colors.White);
+
+        //                         col.Item().PaddingTop(3)
+        //                             .Text($"Total Current Year: {totalCurrentYear:N2}   |   Total Last Year: {totalLastYear:N2}   |   Total Variance: {totalVariance:N2}")
+        //                             .FontSize(9)
+        //                             .FontColor("#CCFBF1");
+
+        //                         col.Item().PaddingTop(3)
+        //                             .Text($"Generated: {DateTime.Now:dd/MM/yyyy hh:mm tt}")
+        //                             .FontSize(9)
+        //                             .FontColor("#CCFBF1");
+        //                     });
+
+        //                 header.Item().Height(12);
+        //             });
+
+        //             page.Content().Table(table =>
+        //             {
+        //                 table.ColumnsDefinition(columns =>
+        //                 {
+        //                     columns.RelativeColumn(1.4f);
+        //                     columns.RelativeColumn(1.4f);
+        //                     columns.RelativeColumn(1.2f);
+        //                     columns.RelativeColumn(2f);
+        //                     columns.RelativeColumn(1.5f);
+        //                     columns.RelativeColumn(2f);
+        //                     columns.RelativeColumn(1.5f);
+        //                     columns.RelativeColumn(1.5f);
+        //                     columns.RelativeColumn(1.5f);
+        //                     columns.RelativeColumn(1.5f);
+        //                 });
+
+        //                 table.Header(header =>
+        //                 {
+        //                     header.Cell().Element(HeaderCellStyle).Text("Customer No");
+        //                     header.Cell().Element(HeaderCellStyle).Text("Group");
+        //                     header.Cell().Element(HeaderCellStyle).Text("Branch");
+        //                     header.Cell().Element(HeaderCellStyle).Text("Branch Name");
+        //                     header.Cell().Element(HeaderCellStyle).Text("Salesman No");
+        //                     header.Cell().Element(HeaderCellStyle).Text("Salesman");
+        //                     header.Cell().Element(HeaderCellStyle).Text("Phone");
+        //                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Current Year");
+        //                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Last Year");
+        //                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Variance");
+        //                 });
+
+        //                 foreach (var item in data)
+        //                 {
+        //                     table.Cell().Element(BodyCellStyle).Text(item.CustomerNumber);
+        //                     table.Cell().Element(BodyCellStyle).Text(item.CustomerGroup);
+        //                     table.Cell().Element(BodyCellStyle).Text(item.BranchCode);
+        //                     table.Cell().Element(BodyCellStyle).Text(item.BranchName);
+        //                     table.Cell().Element(BodyCellStyle).Text(item.SalesmanNumber);
+        //                     table.Cell().Element(BodyCellStyle).Text(item.SalesManName);
+        //                     table.Cell().Element(BodyCellStyle).Text(item.SalesmanPhone);
+        //                     table.Cell().Element(BodyCellStyle).AlignRight().Text(item.CurrentYear.ToString("N2"));
+        //                     table.Cell().Element(BodyCellStyle).AlignRight().Text(item.LastYear.ToString("N2"));
+        //                     table.Cell().Element(BodyCellStyle).AlignRight().Text(item.Variance.ToString("N2"));
+        //                 }
+        //             });
+
+        //             page.Footer()
+        //                 .BorderTop(1)
+        //                 .BorderColor("#CBD5E1")
+        //                 .PaddingTop(8)
+        //                 .Row(row =>
+        //                 {
+        //                     row.RelativeItem().Row(left =>
+        //                     {
+        //                         left.ConstantItem(22)
+        //                             .Image(websiteLogo)
+        //                             .FitWidth();
+
+        //                         left.RelativeItem()
+        //                             .PaddingLeft(6)
+        //                             .AlignMiddle()
+        //                             .Text("WazaranPI")
+        //                             .FontSize(10)
+        //                             .Bold()
+        //                             .FontColor("#0F766E");
+        //                     });
+
+        //                     row.ConstantItem(120)
+        //                         .AlignRight()
+        //                         .Text(text =>
+        //                         {
+        //                             text.Span("Page ").FontSize(8).FontColor("#64748B");
+        //                             text.CurrentPageNumber().FontSize(8).FontColor("#64748B");
+        //                             text.Span(" of ").FontSize(8).FontColor("#64748B");
+        //                             text.TotalPages().FontSize(8).FontColor("#64748B");
+        //                         });
+        //                 });
+        //         });
+        //     }).GeneratePdf();
+
+        //     return new MemoryStream(pdf);
+
+        //     static IContainer HeaderCellStyle(IContainer container)
+        //     {
+        //         return container
+        //             .Background("#0EA5A4")
+        //             .BorderBottom(1)
+        //             .BorderColor("#0D9488")
+        //             .PaddingVertical(7)
+        //             .PaddingHorizontal(5)
+        //             .DefaultTextStyle(x => x.Bold().FontColor(Colors.White).FontSize(8));
+        //     }
+
+        //     static IContainer BodyCellStyle(IContainer container)
+        //     {
+        //         return container
+        //             .BorderBottom(1)
+        //             .BorderColor("#E2E8F0")
+        //             .PaddingVertical(5)
+        //             .PaddingHorizontal(5)
+        //             .DefaultTextStyle(x => x.FontSize(7).FontColor("#334155"));
+        //     }
+        // }
 
 
 
@@ -435,7 +434,9 @@ namespace WazaranPI.Api.Services.Reports.Sales.SalesVariance
 
                     ws.Columns(8, 10).Style.NumberFormat.Format = "#,##0.00";
 
-                    // fixed widths = faster
+                    //ws.Columns().AdjustToContents(); -- for auto wisth 
+
+                    // fixed widths 
                     ws.Column(1).Width = 18;
                     ws.Column(2).Width = 22;
                     ws.Column(3).Width = 15;

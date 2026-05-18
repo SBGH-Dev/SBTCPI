@@ -24,21 +24,21 @@ namespace WazaranPI.Api.Controllers.Reports.Sales
         [HttpGet("pdf")]
         public async Task<IActionResult> PrintPdf()
         {
-            // var fileBytes = await _service.GenerateSalesVariancePdfAsync();
-
-            // return File(
-            //     fileBytes,
-            //     "application/pdf",
-            //     "SalesVariance.pdf"
-            // );
-
-            var stream = await _service.GenerateSalesVariancePdfAsync();
+            var fileBytes = await _service.GenerateSalesVariancePdfAsync();
 
             return File(
-                stream,
+                fileBytes,
                 "application/pdf",
                 "SalesVariance.pdf"
             );
+
+            // var stream = await _service.GenerateSalesVariancePdfAsync();
+
+            // return File(
+            //     stream,
+            //     "application/pdf",
+            //     "SalesVariance.pdf"
+            // );
         }
 
         [HttpGet("excel")]
