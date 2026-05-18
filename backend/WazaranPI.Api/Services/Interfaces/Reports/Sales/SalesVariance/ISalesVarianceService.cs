@@ -6,8 +6,12 @@ namespace WazaranPI.Api.Services.Interfaces.Reports.Sales.SalesVariance
     {
         Task<IEnumerable<SalesVarianceDto>> GetSalesVarianceAsync();
 
-        Task<byte[]> GenerateSalesVariancePdfAsync();
+        // Task<byte[]> GenerateSalesVariancePdfAsync();
 
-        Task<byte[]> GenerateSalesVarianceExcelAsync();
+        Task<MemoryStream> GenerateSalesVariancePdfAsync();
+
+        // Task<byte[]> GenerateSalesVarianceExcelAsync();
+       
+        Task<MemoryStream> GenerateSalesVarianceExcelAsync();
     }
 }

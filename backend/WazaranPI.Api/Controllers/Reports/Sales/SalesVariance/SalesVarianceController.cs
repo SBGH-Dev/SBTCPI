@@ -24,10 +24,18 @@ namespace WazaranPI.Api.Controllers.Reports.Sales
         [HttpGet("pdf")]
         public async Task<IActionResult> PrintPdf()
         {
-            var fileBytes = await _service.GenerateSalesVariancePdfAsync();
+            // var fileBytes = await _service.GenerateSalesVariancePdfAsync();
+
+            // return File(
+            //     fileBytes,
+            //     "application/pdf",
+            //     "SalesVariance.pdf"
+            // );
+
+            var stream = await _service.GenerateSalesVariancePdfAsync();
 
             return File(
-                fileBytes,
+                stream,
                 "application/pdf",
                 "SalesVariance.pdf"
             );
@@ -36,13 +44,22 @@ namespace WazaranPI.Api.Controllers.Reports.Sales
         [HttpGet("excel")]
         public async Task<IActionResult> ExportExcel()
         {
-            var fileBytes = await _service.GenerateSalesVarianceExcelAsync();
+            // var fileBytes = await _service.GenerateSalesVarianceExcelAsync();
 
-            return File(
-                fileBytes,
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                "SalesVariance.xlsx"
-            );
+            // return File(
+            //     fileBytes,
+            //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            //     "SalesVariance.xlsx"
+            // );
+
+               var stream = await _service.GenerateSalesVarianceExcelAsync();
+
+                return File(
+                    stream,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "SalesVariance.xlsx"
+                );
         }
     }
 }
+
