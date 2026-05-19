@@ -191,7 +191,7 @@ export default function SalesVariancePage() {
     downloadFile(
       `${apiBaseUrl}/reports/sales/sales-variance/pdf?${buildQuery()}`,
       "SalesVariance.pdf",
-      "Preparing PDF ( It Might Take Time Since Its A Large Data Set )...",
+      "Preparing PDF ( It Might Take Time If Its A Large Data Set ) ...",
     );
   };
 
