@@ -443,7 +443,7 @@ export default function SalesVariancePage() {
             <tbody>
               {loading && (
                 <tr>
-                  <td colSpan={10}>
+                  <td colSpan={11}>
                     <Loader
                       text="Loading sales variance..."
                       fullScreen={false}
