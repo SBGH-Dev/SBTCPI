@@ -45,6 +45,7 @@ export default function SalesVariancePage() {
   const [selectedSalesmen, setSelectedSalesmen] = useState<string[]>([]);
   const [selectedCustomers, setSelectedCustomers] = useState<string[]>([]);
   const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
+  const [filterResetKey, setFilterResetKey] = useState(0);
 
   const router = useRouter();
 
@@ -306,6 +307,7 @@ export default function SalesVariancePage() {
             options={branches}
             selectedValues={selectedBranches}
             onChange={handleBranchChange}
+            resetKey={filterResetKey}
           />
 
           <MultiSelectFilter
@@ -313,6 +315,7 @@ export default function SalesVariancePage() {
             options={salesmen}
             selectedValues={selectedSalesmen}
             onChange={setSelectedSalesmen}
+            resetKey={filterResetKey}
           />
 
           <MultiSelectFilter
@@ -320,6 +323,7 @@ export default function SalesVariancePage() {
             options={customers}
             selectedValues={selectedCustomers}
             onChange={setSelectedCustomers}
+            resetKey={filterResetKey}
           />
 
           <MultiSelectFilter
@@ -327,6 +331,7 @@ export default function SalesVariancePage() {
             options={channels}
             selectedValues={selectedChannels}
             onChange={setSelectedChannels}
+            resetKey={filterResetKey}
           />
         </div>
 
@@ -345,6 +350,7 @@ export default function SalesVariancePage() {
               setSelectedSalesmen([]);
               setSelectedCustomers([]);
               setSelectedChannels([]);
+              setFilterResetKey((x) => x + 1);
 
               await loadFilters("");
               await loadData([], [], [], []);
@@ -352,7 +358,7 @@ export default function SalesVariancePage() {
             disabled={loading}
             className="cursor-pointer rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-bold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Reset
+            Reset Filters
           </button>
         </div>
       </div>
@@ -599,6 +605,7 @@ export default function SalesVariancePage() {
               setSelectedSalesmen([]);
               setSelectedCustomers([]);
               setSelectedChannels([]);
+              setFilterResetKey((x) => x + 1);
 
               await loadFilters("");
               await loadData([], [], [], []);
