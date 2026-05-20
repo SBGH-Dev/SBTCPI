@@ -28,4 +28,5 @@ namespace WazaranPI.Api.Repositories
             return user;
         }
     }
+    
 }

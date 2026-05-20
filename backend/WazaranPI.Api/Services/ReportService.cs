@@ -22,6 +22,7 @@ namespace WazaranPI.Api.Services
         public async Task<IEnumerable<DummySalesDto>> GetDummySalesAsync(DateTime startDate, DateTime endDate)
         {
             //validation here
+            
             return await _reportRepository.GetDummySalesAsync(startDate, endDate);
         }
 

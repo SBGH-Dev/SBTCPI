@@ -30,7 +30,7 @@ export default function ProfileButton() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-12 z-50 w-72 rounded-2xl border border-cyan-100 bg-white p-5 shadow-xl text-black">
+        <div className="absolute right-0 top-12 z-50 w-85 rounded-2xl border border-cyan-100 bg-white p-5 shadow-xl text-black">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="grid h-14 w-14 place-items-center rounded-full bg-teal-500 text-xl font-bold text-white">
