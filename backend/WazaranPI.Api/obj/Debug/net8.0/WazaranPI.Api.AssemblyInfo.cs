@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WazaranPI.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+461b8532249fdcc5d6c93f027078f4f8b7912f94")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9aae354119621f14bb86620c0925776837ed845d")]
 [assembly: System.Reflection.AssemblyProductAttribute("WazaranPI.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WazaranPI.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
