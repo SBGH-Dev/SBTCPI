@@ -21,6 +21,7 @@ namespace WazaranPI.Api.Repositories
 
             var user = await db.QueryFirstOrDefaultAsync<User>(
                 "dbo.sp_bi_tmst_bi_users_get",  //sp_Users_Get
+                //"dbo.sp_Users_Get",  //sp_Users_Get
                 new { Username = username },
                 commandType: CommandType.StoredProcedure
             );

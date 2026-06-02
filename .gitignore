@@ -25,3 +25,6 @@ obj/
 *.log
 .DS_Store
 Thumbs.db
+
+database/
+
