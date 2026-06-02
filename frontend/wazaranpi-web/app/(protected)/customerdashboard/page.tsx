@@ -378,7 +378,7 @@ export default function CustomerDashboard() {
       <div className="mb-6 rounded-2xl border border-teal-100 bg-white p-5 shadow-sm">
         <div className="mb-4 flex items-center gap-2">
           <div className="rounded-full bg-teal-100 p-2 text-teal-600">
-            <Filter size={14} />
+            <Filter size={12} />
           </div>
 
           <h2 className="text-lg font-bold text-slate-800">Filters</h2>
