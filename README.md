@@ -1,6 +1,6 @@
 # SBTC BI System
 
-Simulates PI behavior and generates customizable reports for internal company use.
+Simulates BI behavior and generates customizable reports for internal company use.
 
 ## Tech Stack
 - Frontend: Next.js
