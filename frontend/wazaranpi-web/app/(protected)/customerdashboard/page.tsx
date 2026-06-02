@@ -457,7 +457,8 @@ export default function CustomerDashboard() {
             <p className="mt-3 text-2xl font-black text-amber-700">
               {formatNumber(
                 topPaying.thisYear?.topPayingCustomerThisYearAmount || 0,
-              )}
+              )}{" "}
+              SAR
             </p>
           </div>
 
@@ -477,7 +478,8 @@ export default function CustomerDashboard() {
             <p className="mt-3 text-2xl font-black text-amber-700">
               {formatNumber(
                 topPaying.thisMonth?.topPayingCustomerThisMonthAmount || 0,
-              )}
+              )}{" "}
+              SAR
             </p>
           </div>
         </div>
@@ -494,25 +496,25 @@ export default function CustomerDashboard() {
           <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
             <SummaryCard
               title="Total Sales"
-              value={formatNumber(customerDetails.totalSales)}
+              value={`${formatNumber(customerDetails.totalSales)} SAR`}
               icon={ShoppingBag}
             />
 
             <SummaryCard
               title={`Sales ${customerDetails.currentYear}`}
-              value={formatNumber(customerDetails.totalSalesThisYear)}
+              value={`${formatNumber(customerDetails.totalSalesThisYear)} SAR`}
               icon={Receipt}
             />
 
             <SummaryCard
               title={`Sales ${customerDetails.currentMonth}`}
-              value={formatNumber(customerDetails.totalSalesThisMonth)}
+              value={`${formatNumber(customerDetails.totalSalesThisMonth)} SAR`}
               icon={Receipt}
             />
 
             <SummaryCard
               title="Pending Payment"
-              value={formatNumber(customerDetails.pendingPayment)}
+              value={`${formatNumber(customerDetails.pendingPayment)} SAR`}
               icon={Wallet}
               danger={customerDetails.pendingPayment > 0}
             />
