@@ -610,7 +610,7 @@ export default function CustomerDashboard() {
                   className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-cyan-500 px-5 py-3 text-sm font-bold text-white shadow-md transition hover:bg-cyan-600"
                 >
                   <Building2 size={17} />
-                  View Customer Picture
+                  Street View ( If Available )
                 </button>
               </div>
 
