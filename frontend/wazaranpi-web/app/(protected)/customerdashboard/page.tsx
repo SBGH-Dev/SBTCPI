@@ -122,6 +122,9 @@ export default function CustomerDashboard() {
     products.find((p) => p.value === selectedProduct)?.label || "N/A";
   const router = useRouter();
 
+  const selectedBranchName =
+    branches.find((b) => b.value === selectedBranch)?.label || "N/A";
+
   const [customerDetails, setCustomerDetails] =
     useState<CustomerDetails | null>(null);
 
@@ -545,6 +548,11 @@ export default function CustomerDashboard() {
               {topPaying.thisYear?.currentYear || "N/A"} {" ) "}
             </p>
 
+            <p className="mt-2 text-sm text-slate-600">
+              {" "}
+              {"Branch: "} {selectedBranchName}
+            </p>
+
             <p className="mt-3 text-2xl font-black text-amber-700">
               {formatNumber(
                 topPaying.thisYear?.topPayingCustomerThisYearAmount || 0,
@@ -566,7 +574,10 @@ export default function CustomerDashboard() {
               Among all products {" ( "}{" "}
               {topPaying.thisMonth?.currentMonth || "N/A"} {" ) "}
             </p>
-
+            <p className="mt-2 text-sm text-slate-600">
+              {" "}
+              {"Branch: "} {selectedBranchName}
+            </p>
             <p className="mt-3 text-2xl font-black text-amber-700">
               {formatNumber(
                 topPaying.thisMonth?.topPayingCustomerThisMonthAmount || 0,
@@ -589,6 +600,10 @@ export default function CustomerDashboard() {
                 <p className="mt-2 text-sm text-slate-600">
                   {selectedProductName} {" ( "}
                   {topPaying.thisYearByProduct?.currentYear || "N/A"} {" ) "}
+                </p>
+                <p className="mt-2 text-sm text-slate-600">
+                  {" "}
+                  {"Branch: "} {selectedBranchName}
                 </p>
 
                 <p className="mt-3 text-2xl font-black text-teal-700">
@@ -613,6 +628,10 @@ export default function CustomerDashboard() {
                 <p className="mt-2 text-sm text-slate-600">
                   {selectedProductName} {" ( "}
                   {topPaying.thisMonthByProduct?.currentMonth || "N/A"} {" ) "}
+                </p>
+                <p className="mt-2 text-sm text-slate-600">
+                  {" "}
+                  {"Branch: "} {selectedBranchName}
                 </p>
 
                 <p className="mt-3 text-2xl font-black text-teal-700">
