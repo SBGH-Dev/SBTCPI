@@ -7,6 +7,7 @@ import Loader from "../components/Loader";
 import { BarChart3, Target, Users, FileText } from "lucide-react";
 import { getSalesSubMenus } from "../services/salesSubMenuService";
 import { SalesSubMenu } from "../types/salessubmenu";
+import { useRouter } from "next/navigation";
 
 const iconMap = {
   BarChart3,
@@ -18,6 +19,7 @@ const iconMap = {
 export default function SalesPage() {
   const [reports, setReports] = useState<SalesSubMenu[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const userText = sessionStorage.getItem("user");
@@ -28,7 +30,6 @@ export default function SalesPage() {
     }
 
     const user = JSON.parse(userText);
-
     const empCd = user.empCd || user.EmpCd;
 
     getSalesSubMenus(empCd)
@@ -42,7 +43,7 @@ export default function SalesPage() {
   }
 
   return (
-    <section className="min-h-[calc(100vh-8rem)] overflow-hidden rounded-[2rem] bg-white/70 p-10 shadow-[0_20px_60px_rgba(15,118,110,0.12)]">
+    <section className="flex min-h-[calc(100vh-8rem)] flex-col overflow-hidden rounded-[2rem] bg-white/70 p-10 shadow-[0_20px_60px_rgba(15,118,110,0.12)]">
       <div className="mb-8 rounded-2xl bg-gradient-to-r from-teal-500 to-cyan-500 px-6 py-5 text-white shadow-[0_10px_30px_rgba(20,184,166,0.25)]">
         <div className="flex items-center justify-between">
           <div>
@@ -98,6 +99,19 @@ export default function SalesPage() {
           })}
         </div>
       )}
+
+      <div className="mt-auto flex justify-start pt-10">
+        <button
+          type="button"
+          onClick={() => router.push("/")}
+          className="group inline-flex w-fit cursor-pointer items-center gap-2 rounded-full border border-teal-200 bg-white px-5 py-3 text-sm font-bold text-teal-600 shadow-sm transition-all duration-300 hover:-translate-x-1 hover:bg-teal-50 hover:shadow-md"
+        >
+          <span className="transition-transform duration-200 group-hover:-translate-x-1">
+            ←
+          </span>
+          <span>Back</span>
+        </button>
+      </div>
     </section>
   );
 }
