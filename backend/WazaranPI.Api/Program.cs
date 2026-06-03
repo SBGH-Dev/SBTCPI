@@ -54,6 +54,7 @@ builder.Services.AddScoped<ISalesVarianceService, SalesVarianceService>();
 builder.Services.AddScoped<ICustomerDashBoardRepository, CustomerDashBoardRepository>();
 builder.Services.AddScoped<ICustomerDashBoardService, CustomerDashBoardService>();
 
+
 QuestPDF.Settings.License = LicenseType.Community;
 
 

@@ -74,5 +74,20 @@ namespace WazaranPI.Api.Controllers.DashBoards.CustomerDashBoard
 
             return Ok(data);
         }
+
+        [HttpGet("top-paying-by-product")]
+        public async Task<IActionResult> GetTopPayingCustomersByProduct(
+            [FromQuery] string salespointcd = "",
+            [FromQuery] string prod_cd = ""
+        )
+        {
+            var data = await _service.GetTopPayingCustomersByProductAsync(
+                salespointcd,
+                prod_cd
+            );
+
+            return Ok(data);
+        }
+
     }
 }

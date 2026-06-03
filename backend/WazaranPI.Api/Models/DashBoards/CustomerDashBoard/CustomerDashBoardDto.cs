@@ -42,6 +42,13 @@ namespace WazaranPI.Api.Models.DashBoards.CustomerDashBoard
 
         public int CurrentYear { get; set; }
         public string CurrentMonth { get; set; } = "";
+
+        public decimal TotalInvThisYear { get; set; }
+
+        public decimal TotalInvThisMonth { get; set; }
+
+        public decimal TotalInv { get; set; } 
+        public decimal DryMonths { get; set; } 
     }
 
     public class TopPayingCustomerThisYearDto
@@ -58,9 +65,28 @@ namespace WazaranPI.Api.Models.DashBoards.CustomerDashBoard
         public string CurrentMonth { get; set; } = "";
     }
 
+
+    public class TopPayingCustomerThisYearByProductDto
+    {
+        public string TopPayingCustomerThisYearByProduct { get; set; } = "";
+        public decimal TopPayingCustomerThisYearByProductAmount { get; set; }
+        public string CurrentYear { get; set; } = "";
+    }
+
+    public class TopPayingCustomerThisMonthByProductDto
+    {
+        public string TopPayingCustomerThisMonthByProduct { get; set; } = "";
+        public decimal TopPayingCustomerThisMonthByProductAmount { get; set; }
+        public string CurrentMonth { get; set; } = "";
+    }
+
     public class CustomerDashBoardTopPayingDto
     {
         public TopPayingCustomerThisYearDto? ThisYear { get; set; }
         public TopPayingCustomerThisMonthDto? ThisMonth { get; set; }
+
+    public TopPayingCustomerThisYearByProductDto? ThisYearByProduct { get; set; }
+    public TopPayingCustomerThisMonthByProductDto? ThisMonthByProduct { get; set; }
+
     }
 }

@@ -15,6 +15,8 @@ import {
   ShoppingBag,
   User,
   Wallet,
+  FileText,
+  CalendarX,
 } from "lucide-react";
 import SingleSelectFilter from "../components/SingleSelectFilter";
 import Loader from "../components/Loader";
@@ -54,7 +56,25 @@ type CustomerDetails = {
   totalSalesToday: number;
   currentYear: number;
   currentMonth: string;
+
+  totalInvThisYear: number;
+  totalInvThisMonth: number;
+  totalInv: number;
+  dryMonths: number;
 };
+
+// type TopPayingData = {
+//   thisYear: {
+//     topPayingCustomerThisYear: string;
+//     topPayingCustomerThisYearAmount: number;
+//     currentYear: string;
+//   } | null;
+//   thisMonth: {
+//     topPayingCustomerThisMonth: string;
+//     topPayingCustomerThisMonthAmount: number;
+//     currentMonth: string;
+//   } | null;
+// };
 
 type TopPayingData = {
   thisYear: {
@@ -62,9 +82,22 @@ type TopPayingData = {
     topPayingCustomerThisYearAmount: number;
     currentYear: string;
   } | null;
+
   thisMonth: {
     topPayingCustomerThisMonth: string;
     topPayingCustomerThisMonthAmount: number;
+    currentMonth: string;
+  } | null;
+
+  thisYearByProduct: {
+    topPayingCustomerThisYearByProduct: string;
+    topPayingCustomerThisYearByProductAmount: number;
+    currentYear: string;
+  } | null;
+
+  thisMonthByProduct: {
+    topPayingCustomerThisMonthByProduct: string;
+    topPayingCustomerThisMonthByProductAmount: number;
     currentMonth: string;
   } | null;
 };
@@ -84,6 +117,9 @@ export default function CustomerDashboard() {
   const [selectedChannel, setSelectedChannel] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState("");
   const [selectedProduct, setSelectedProduct] = useState("");
+
+  const selectedProductName =
+    products.find((p) => p.value === selectedProduct)?.label || "N/A";
   const router = useRouter();
 
   const [customerDetails, setCustomerDetails] =
@@ -252,6 +288,42 @@ export default function CustomerDashboard() {
     }
   };
 
+  const loadTopPayingCustomersByProduct = async (
+    branchCode: string,
+    productCode: string,
+  ) => {
+    try {
+      const params = new URLSearchParams();
+
+      params.append("salespointcd", branchCode);
+      params.append("prod_cd", productCode);
+
+      const response = await fetch(
+        `${apiBaseUrl}/dashboards/customer-dashboard/top-paying-by-product?${params.toString()}`,
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to load top paying customer by product.");
+      }
+
+      const data: TopPayingData = await response.json();
+
+      setTopPaying((previous) => ({
+        thisYear: previous?.thisYear || null,
+        thisMonth: previous?.thisMonth || null,
+        thisYearByProduct: data.thisYearByProduct,
+        thisMonthByProduct: data.thisMonthByProduct,
+      }));
+    } catch {
+      setTopPaying((previous) => ({
+        thisYear: previous?.thisYear || null,
+        thisMonth: previous?.thisMonth || null,
+        thisYearByProduct: null,
+        thisMonthByProduct: null,
+      }));
+    }
+  };
+
   const handleBranchChange = async (branchCode: string) => {
     setSelectedBranch(branchCode);
     setSelectedChannel("");
@@ -277,6 +349,22 @@ export default function CustomerDashboard() {
 
     if (selectedBranch && channelCode) {
       await loadCustomers(selectedBranch, channelCode);
+    }
+  };
+
+  const handleProductChange = async (productCode: string) => {
+    setSelectedProduct(productCode);
+    setCustomerDetails(null);
+
+    setTopPaying((previous) => ({
+      thisYear: previous?.thisYear || null,
+      thisMonth: previous?.thisMonth || null,
+      thisYearByProduct: null,
+      thisMonthByProduct: null,
+    }));
+
+    if (selectedBranch && productCode) {
+      await loadTopPayingCustomersByProduct(selectedBranch, productCode);
     }
   };
 
@@ -416,7 +504,8 @@ export default function CustomerDashboard() {
             options={products}
             value={selectedProduct}
             resetKey={filterResetKey}
-            onChange={setSelectedProduct}
+            // onChange={setSelectedProduct}
+            onChange={handleProductChange}
           />
         </div>
 
@@ -440,7 +529,8 @@ export default function CustomerDashboard() {
       </div>
 
       {selectedBranch && topPaying && (
-        <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+        // <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
           <div className="rounded-2xl border border-yellow-200 bg-gradient-to-br from-yellow-50 to-amber-100 p-5 shadow-sm">
             <p className="text-sm font-bold text-amber-700">
               👑 Top Paying Customer This Year
@@ -451,14 +541,15 @@ export default function CustomerDashboard() {
             </h3>
 
             <p className="mt-2 text-sm text-slate-600">
-              Among all products - {topPaying.thisYear?.currentYear || "N/A"}
+              Among all products {" ( "}{" "}
+              {topPaying.thisYear?.currentYear || "N/A"} {" ) "}
             </p>
 
             <p className="mt-3 text-2xl font-black text-amber-700">
               {formatNumber(
                 topPaying.thisYear?.topPayingCustomerThisYearAmount || 0,
               )}{" "}
-              SAR
+              CTN
             </p>
           </div>
 
@@ -472,16 +563,68 @@ export default function CustomerDashboard() {
             </h3>
 
             <p className="mt-2 text-sm text-slate-600">
-              Among all products - {topPaying.thisMonth?.currentMonth || "N/A"}
+              Among all products {" ( "}{" "}
+              {topPaying.thisMonth?.currentMonth || "N/A"} {" ) "}
             </p>
 
             <p className="mt-3 text-2xl font-black text-amber-700">
               {formatNumber(
                 topPaying.thisMonth?.topPayingCustomerThisMonthAmount || 0,
               )}{" "}
-              SAR
+              CTN
             </p>
           </div>
+          {selectedProduct && (
+            <>
+              <div className="rounded-2xl border border-cyan-200 bg-gradient-to-br from-cyan-50 to-teal-100 p-5 shadow-sm">
+                <p className="text-sm font-bold text-teal-700">
+                  👑 Top Customer This Year By Product
+                </p>
+
+                <h3 className="mt-2 text-xl font-extrabold text-slate-800">
+                  {topPaying.thisYearByProduct
+                    ?.topPayingCustomerThisYearByProduct || "N/A"}
+                </h3>
+
+                <p className="mt-2 text-sm text-slate-600">
+                  {selectedProductName} {" ( "}
+                  {topPaying.thisYearByProduct?.currentYear || "N/A"} {" ) "}
+                </p>
+
+                <p className="mt-3 text-2xl font-black text-teal-700">
+                  {formatNumber(
+                    topPaying.thisYearByProduct
+                      ?.topPayingCustomerThisYearByProductAmount || 0,
+                  )}{" "}
+                  CTN
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-cyan-200 bg-gradient-to-br from-cyan-50 to-teal-100 p-5 shadow-sm">
+                <p className="text-sm font-bold text-teal-700">
+                  👑 Top Customer This Month By Product
+                </p>
+
+                <h3 className="mt-2 text-xl font-extrabold text-slate-800">
+                  {topPaying.thisMonthByProduct
+                    ?.topPayingCustomerThisMonthByProduct || "N/A"}
+                </h3>
+
+                <p className="mt-2 text-sm text-slate-600">
+                  {selectedProductName} {" ( "}
+                  {topPaying.thisMonthByProduct?.currentMonth || "N/A"} {" ) "}
+                </p>
+
+                <p className="mt-3 text-2xl font-black text-teal-700">
+                  {formatNumber(
+                    topPaying.thisMonthByProduct
+                      ?.topPayingCustomerThisMonthByProductAmount || 0,
+                  )}{" "}
+                  CTN
+                </p>
+              </div>
+            </>
+          )}
         </div>
       )}
 
@@ -496,20 +639,23 @@ export default function CustomerDashboard() {
           <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
             <SummaryCard
               title="Total Sales"
-              value={`${formatNumber(customerDetails.totalSales)} SAR`}
+              value={`${formatNumber(customerDetails.totalSales)} CTN`}
               icon={ShoppingBag}
+              danger={customerDetails.totalSales <= 0}
             />
 
             <SummaryCard
               title={`Sales ${customerDetails.currentYear}`}
-              value={`${formatNumber(customerDetails.totalSalesThisYear)} SAR`}
+              value={`${formatNumber(customerDetails.totalSalesThisYear)} CTN`}
               icon={Receipt}
+              danger={customerDetails.totalSalesThisYear <= 0}
             />
 
             <SummaryCard
               title={`Sales ${customerDetails.currentMonth}`}
-              value={`${formatNumber(customerDetails.totalSalesThisMonth)} SAR`}
+              value={`${formatNumber(customerDetails.totalSalesThisMonth)} CTN`}
               icon={Receipt}
+              danger={customerDetails.totalSalesThisMonth <= 0}
             />
 
             <SummaryCard
@@ -517,6 +663,34 @@ export default function CustomerDashboard() {
               value={`${formatNumber(customerDetails.pendingPayment)} SAR`}
               icon={Wallet}
               danger={customerDetails.pendingPayment > 0}
+            />
+
+            <SummaryCard
+              title="Total invoices"
+              value={`${formatNumber(customerDetails.totalInv)} Invoices`}
+              icon={FileText}
+              danger={customerDetails.totalInv <= 0}
+            />
+
+            <SummaryCard
+              title={`Total invoices ${customerDetails.currentYear}`}
+              value={`${formatNumber(customerDetails.totalInvThisYear)} Invoices`}
+              icon={FileText}
+              danger={customerDetails.totalInvThisYear <= 0}
+            />
+
+            <SummaryCard
+              title={`Total invoices ${customerDetails.currentMonth}`}
+              value={`${formatNumber(customerDetails.totalInvThisMonth)} Invoices`}
+              icon={FileText}
+              danger={customerDetails.totalInvThisMonth <= 0}
+            />
+
+            <SummaryCard
+              title="Dry Months"
+              value={`${formatNumber(customerDetails.dryMonths)} Months`}
+              icon={CalendarX}
+              danger={customerDetails.dryMonths > 0}
             />
           </div>
 
@@ -528,7 +702,6 @@ export default function CustomerDashboard() {
                   Customer Information
                 </h2>
               </div>
-
               <InfoRow
                 label="Customer No"
                 value={customerDetails.customerNumber}
@@ -550,13 +723,28 @@ export default function CustomerDashboard() {
                 label="Address"
                 value={customerDetails.customerAddress}
               />
-              <InfoRow
+              {/* <InfoRow
                 label="Latest Payment Date"
                 value={
                   customerDetails.latestPaymentDt
                     ? new Date(
                         customerDetails.latestPaymentDt,
                       ).toLocaleDateString()
+                    : "N/A"
+                }
+              /> */}
+
+              <InfoRow
+                label="Latest Payment Date"
+                value={
+                  customerDetails.latestPaymentDt
+                    ? new Date(
+                        customerDetails.latestPaymentDt,
+                      ).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      })
                     : "N/A"
                 }
               />

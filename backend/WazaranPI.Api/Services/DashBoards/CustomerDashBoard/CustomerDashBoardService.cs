@@ -50,5 +50,17 @@ namespace WazaranPI.Api.Services.DashBoards.CustomerDashBoard
         {
             return await _repository.GetTopPayingCustomersAsync(salespointcd);
         }
+
+        public async Task<CustomerDashBoardTopPayingDto> GetTopPayingCustomersByProductAsync(
+            string salespointcd,
+            string prodCd
+        )
+        {
+            return await _repository.GetTopPayingCustomersByProductAsync(
+                salespointcd,
+                prodCd
+            );
+        }
+
     }
 }

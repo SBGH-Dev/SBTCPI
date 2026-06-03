@@ -22,5 +22,10 @@ namespace WazaranPI.Api.Repositories.Interfaces.DashBoards.CustomerDashBoard
         Task<CustomerDashBoardTopPayingDto> GetTopPayingCustomersAsync(
             string salespointcd
         );
+
+        Task<CustomerDashBoardTopPayingDto> GetTopPayingCustomersByProductAsync(
+    string salespointcd,
+    string prodCd
+);
     }
 }

@@ -116,5 +116,42 @@ namespace WazaranPI.Api.Repositories.DashBoards.CustomerDashBoard
                 ThisMonth = thisMonth
             };
         }
+
+        public async Task<CustomerDashBoardTopPayingDto> GetTopPayingCustomersByProductAsync(
+    string salespointcd,
+    string prodCd
+)
+{
+    using var db = _connectionFactory.CreateConnection();
+
+    var thisYearByProduct =
+        await db.QueryFirstOrDefaultAsync<TopPayingCustomerThisYearByProductDto>(
+            "dbo.sp_bi_top_paying_customer_this_year_by_product__get",
+            new
+            {
+                salespointcd = salespointcd ?? "",
+                prod_cd = prodCd ?? ""
+            },
+            commandType: CommandType.StoredProcedure
+        );
+
+    var thisMonthByProduct =
+        await db.QueryFirstOrDefaultAsync<TopPayingCustomerThisMonthByProductDto>(
+            "dbo.sp_bi_top_paying_customer_this_month_by_product_get",
+            new
+            {
+                salespointcd = salespointcd ?? "",
+                prod_cd = prodCd ?? ""
+            },
+            commandType: CommandType.StoredProcedure
+        );
+
+    return new CustomerDashBoardTopPayingDto
+    {
+        ThisYearByProduct = thisYearByProduct,
+        ThisMonthByProduct = thisMonthByProduct
+    };
+}
+
     }
 }
