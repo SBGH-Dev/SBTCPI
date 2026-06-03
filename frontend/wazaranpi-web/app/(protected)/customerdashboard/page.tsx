@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import { getCustomerImageUrl } from "../utils/branchCustomerImage";
 import {
   Building2,
   Crown,
@@ -17,6 +18,7 @@ import {
   Wallet,
   FileText,
   CalendarX,
+  UserCheck,
 } from "lucide-react";
 import SingleSelectFilter from "../components/SingleSelectFilter";
 import Loader from "../components/Loader";
@@ -61,6 +63,9 @@ type CustomerDetails = {
   totalInvThisMonth: number;
   totalInv: number;
   dryMonths: number;
+  lastSaleSalesmanNumber: string;
+  lastSaleSalesmanName: string;
+  lastSaleSalesmanPhone: string;
 };
 
 // type TopPayingData = {
@@ -182,6 +187,29 @@ export default function CustomerDashboard() {
     }
 
     const url = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${customerDetails.customerLatitude},${customerDetails.customerLongitude}`;
+
+    window.open(url, "_blank");
+  };
+  const openCustomerImage = () => {
+    if (!customerDetails) return;
+
+    const url = getCustomerImageUrl(
+      selectedBranch,
+      customerDetails.customerNumber,
+    );
+
+    if (!url) {
+      Swal.fire({
+        title: "Image Not Found",
+        text: "No image IP is configured for this branch.",
+        icon: "warning",
+        confirmButtonColor: "#14b8a6",
+        background: "#F3FFFC",
+        color: "#1e293b",
+      });
+
+      return;
+    }
 
     window.open(url, "_blank");
   };
@@ -705,11 +733,25 @@ export default function CustomerDashboard() {
               danger={customerDetails.totalInvThisMonth <= 0}
             />
 
-            <SummaryCard
+            {/* <SummaryCard
               title="Dry Months"
+              
               value={`${formatNumber(customerDetails.dryMonths)} Months`}
               icon={CalendarX}
               danger={customerDetails.dryMonths > 0}
+            /> */}
+            <SummaryCard
+              title="Dry Months"
+              value={
+                customerDetails.dryMonths === 0 &&
+                customerDetails.totalSales === 0
+                  ? "Customer Has Not Ordered This Product Before"
+                  : `${formatNumber(customerDetails.dryMonths)} Months`
+              }
+              icon={CalendarX}
+              danger={
+                customerDetails.dryMonths > 0 || customerDetails.dryMonths === 0
+              }
             />
           </div>
 
@@ -774,9 +816,9 @@ export default function CustomerDashboard() {
 
             <div className="rounded-2xl border border-teal-100 bg-white p-6 shadow-sm">
               <div className="mb-5 flex items-center gap-2">
-                <Building2 className="text-teal-600" size={20} />
+                <UserCheck className="text-teal-600" size={20} />
                 <h2 className="text-lg font-bold text-slate-800">
-                  Salesman & Location
+                  Assigned Salesman
                 </h2>
               </div>
 
@@ -792,16 +834,33 @@ export default function CustomerDashboard() {
                 label="Salesman Phone"
                 value={customerDetails.salesmanPhone}
               />
-              {/* <InfoRow
-                label="Latest Payment Date"
-                value={
-                  customerDetails.latestPaymentDt
-                    ? new Date(
-                        customerDetails.latestPaymentDt,
-                      ).toLocaleDateString()
-                    : "N/A"
-                }
-              /> */}
+
+              <div className="mb-5 flex items-center gap-2">
+                <UserCheck className="text-teal-600" size={20} />
+                <h2 className="text-lg font-bold text-slate-800">
+                  Last Sales Salesman
+                </h2>
+              </div>
+
+              <InfoRow
+                label="Salesman No"
+                value={customerDetails.lastSaleSalesmanNumber}
+              />
+              <InfoRow
+                label="Salesman Name"
+                value={customerDetails.lastSaleSalesmanName}
+              />
+              <InfoRow
+                label="Salesman Phone"
+                value={customerDetails.lastSaleSalesmanPhone}
+              />
+
+              <div className="mb-5 flex items-center gap-2">
+                <Building2 className="text-teal-600" size={20} />
+                <h2 className="text-lg font-bold text-slate-800">
+                  Customer Image & Location
+                </h2>
+              </div>
 
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                 <button
@@ -818,6 +877,14 @@ export default function CustomerDashboard() {
                 >
                   <Building2 size={17} />
                   Street View ( If Available )
+                </button>
+
+                <button
+                  onClick={openCustomerImage}
+                  className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-amber-500 px-5 py-3 text-sm font-bold text-white shadow-md transition hover:bg-amber-600"
+                >
+                  <Building2 size={17} />
+                  Customer Image ( If Available )
                 </button>
               </div>
 

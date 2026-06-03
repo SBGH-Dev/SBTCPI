@@ -49,6 +49,12 @@ namespace WazaranPI.Api.Models.DashBoards.CustomerDashBoard
 
         public decimal TotalInv { get; set; } 
         public decimal DryMonths { get; set; } 
+
+        public string LastSaleSalesmanNumber { get; set; } = "";
+
+        public string LastSaleSalesmanName { get; set; } = "";
+
+        public string LastSaleSalesmanPhone { get; set; } = "";
     }
 
     public class TopPayingCustomerThisYearDto
