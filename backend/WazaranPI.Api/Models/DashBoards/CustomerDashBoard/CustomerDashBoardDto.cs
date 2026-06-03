@@ -85,8 +85,8 @@ namespace WazaranPI.Api.Models.DashBoards.CustomerDashBoard
         public TopPayingCustomerThisYearDto? ThisYear { get; set; }
         public TopPayingCustomerThisMonthDto? ThisMonth { get; set; }
 
-    public TopPayingCustomerThisYearByProductDto? ThisYearByProduct { get; set; }
-    public TopPayingCustomerThisMonthByProductDto? ThisMonthByProduct { get; set; }
+        public TopPayingCustomerThisYearByProductDto? ThisYearByProduct { get; set; }
+        public TopPayingCustomerThisMonthByProductDto? ThisMonthByProduct { get; set; }
 
     }
 }
